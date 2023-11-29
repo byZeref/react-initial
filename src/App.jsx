@@ -1,37 +1,41 @@
 import confetti from 'canvas-confetti'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card } from './components/Card'
+import { loadUsers } from './services/users'
 
 function App() {
-  const users = [
-    {
-      id: 1,
-      name: 'Panchito Gomez Toro',
-      username: '@panchito',
-      following: false,
-    },
-    {
-      id: 2,
-      name: 'Pedro Pica Piedra',
-      username: '@pedrito',
-      following: false,
-    },
-    {
-      id: 3,
-      name: 'Alberto El Militar',
-      username: '@albe',
-      following: true,
-    },
-  ]
 
-  const updateUser = (user) => {
-    const target = users.find(item => item.id === user.id)
-    target.following = !user.following
-    console.log('target', target);
+  const [ users, setUsers ] = useState([])
+  const [ followingAll, setFollowingAll ] = useState(false)
+
+  const load = async () => {
+    const data = await loadUsers()
+    setUsers([...data])
   }
 
+  const checkFullFollow = () => {
+    setFollowingAll(users.every(item => item.following === true))
+  }
+
+  const updateUser = (user_id, follow) => {
+    const target = users.find(item => item.id === user_id)
+    target.following = follow
+    console.log(users);
+    checkFullFollow()
+  }
+  
+  useEffect(() => {
+    console.log('following all', followingAll)
+    followingAll && confetti()
+  }, [followingAll])
+
+
+  
+
+  useEffect(() => { load() }, [])
+
   return (
-    <div style={{display: 'flex', flexDirection: 'column', gap: '5px'}}>
+    <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
       { users.map((user) => 
         (
           <Card
