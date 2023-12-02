@@ -1,4 +1,8 @@
-# React + Vite
+# React Initial App
+
+A React app for practicing basic concepts and main hooks, such as `useState`, `useEffect`, and also custom hooks.
+
+## Recomendations
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
