@@ -13,7 +13,6 @@ function App() {
   const updateUser = (user_id, follow) => {
     const target = users.find(item => item.id === user_id)
     target.following = follow
-    console.log(users);
     checkFullFollow()
   }
 
@@ -23,8 +22,9 @@ function App() {
 
   return (
     <main>
-      { !users.length && <h4>Loading users...</h4> }
-      { users.length > 0 && 
+      {
+        !users.length ?
+        <h4>Loading users...</h4> :
         <section style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
           <h3 style={{textAlign: 'center'}}>{headerText}</h3>
           {users.map((user) =>
